@@ -1,4 +1,4 @@
--- basically mnk but 10000x easier b/c meditate until next gcd omegalul
+-- basically monk but 10000x easier b/c meditate until next gcd omegalul
 -- SAM https://i.imgur.com/8Unt2nH.png
 -- Midare 1st opener
 
@@ -21,7 +21,7 @@ xivopeners_sam.openerAbilities = {
     Senei = ActionList:Get(1, 16481),
     Ikishoten = ActionList:Get(1, 16482),
     KaeshiSetsugekka = ActionList:Get(1, 16486),
-    Tincture = {name = "Tincture", id = 27786},
+    Tincture = {name = "Tincture", ids = {27995, 27786}, range = 0},
     MedicineBuffID = 49
 }
 
@@ -83,14 +83,13 @@ xivopeners_sam.openerStarted = false
 xivopeners_sam.useTincture = false
 xivopeners_sam.lastcastid = 0
 xivopeners_sam.lastcastid2 = 0
-xivopeners_sam.nextPos = "any"
-xivopeners_sam.rear = "rear"
-xivopeners_sam.flank = "flank"
 
 function xivopeners_sam.getTincture()
     for i = 0, 3 do
-        local tincture = Inventory:Get(i):Get(xivopeners_sam.openerAbilities.Tincture.id)
-        if (tincture) then return tincture end
+        for _, id in pairs(xivopeners_sam.openerAbilities.Tincture.ids) do
+            local tincture = Inventory:Get(i):Get(id)
+            if (tincture) then return tincture end
+        end
     end
     return nil
 end
@@ -118,7 +117,7 @@ function xivopeners_sam.openerAvailable()
     for _, action in pairs(xivopeners_sam.getOpener()) do
         if (action == xivopeners_sam.openerAbilities.Tincture) then
             local tincture = xivopeners_sam.getTincture()
-            if (tincture and xivopeners_sam.useTincture and tincture:GetAction().cd >= 1.5) then
+            if (tincture and xivopeners_sam.useTincture and tincture:GetAction().cd >= 1.5 and not HasBuff(Player.id, xivopeners_sam.openerAbilities.MedicineBuffID)) then
                 return false
             end
         elseif (action.cd >= 1.5) then
@@ -166,6 +165,7 @@ function xivopeners_sam.updateLastCast()
 end
 
 function xivopeners_sam.drawCall(event, tickcount)
+    GUI:AlignFirstTextHeightToWidgets()
     GUI:BeginGroup()
     GUI:Text("Use Tincture")
     GUI:NextColumn()
@@ -181,7 +181,7 @@ function xivopeners_sam.main(event, tickcount)
             return
         end
 
-        if (not xivopeners_sam.openerAvailable() and not xivopeners_sam.openerStarted) then
+        if ((not xivopeners_sam.openerAvailable() or not target.attackable) and not xivopeners_sam.openerStarted) then
             return
         end -- don't start opener if it's not available, if it's already started then yolo
 
@@ -230,7 +230,7 @@ end
 function xivopeners_sam.useNextAction(target)
     -- do the actual opener
     -- the current implementation uses a queue system
-    if (target and target.attackable and xivopeners_sam.abilityQueue[1]) then
+    if (target and target.attackable and xivopeners_sam.abilityQueue[1] and (xivopeners_sam.abilityQueue[1].range <= 0 or target.distance2d <= xivopeners_sam.abilityQueue[1].range)) then
         if (xivopeners_sam.abilityQueue[1] == xivopeners_sam.openerAbilities.Tincture) then
             local tincture = xivopeners_sam.getTincture()
             if (HasBuff(Player.id, xivopeners_sam.openerAbilities.MedicineBuffID) or not xivopeners_sam.useTincture or not tincture) then

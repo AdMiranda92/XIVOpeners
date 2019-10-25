@@ -20,12 +20,12 @@ xivopeners_brd.openerAbilities = {
     StraightShotReadyBuffID = 122,
     RagingStrikesBuffID = 125,
     BarrageBuffID = 128,
-    Tincture = {name = "Tincture", id = 27787},
+    Tincture = {name = "Tincture", ids = {27996, 27787}, range = 0},
     MedicineBuffID = 49,
 }
 
 xivopeners_brd.openerInfo = {
-    listOpeners = {"Recommended", "Compatibility"},
+    listOpeners = {"Recommended", "No Ninja", "Compatibility"},
     currentOpenerIndex = 1,
 }
 
@@ -73,6 +73,28 @@ xivopeners_brd.openers = {
         xivopeners_brd.openerAbilities.IronJaws,
         xivopeners_brd.openerAbilities.EmpyrealArrow
     },
+
+    nonin = {
+        xivopeners_brd.openerAbilities.Tincture,
+        xivopeners_brd.openerAbilities.RagingStrikes,
+        xivopeners_brd.openerAbilities.Stormbite,
+        xivopeners_brd.openerAbilities.Bloodletter,
+        xivopeners_brd.openerAbilities.WanderersMinuet,
+        xivopeners_brd.openerAbilities.CausticBite,
+        xivopeners_brd.openerAbilities.EmpyrealArrow,
+        xivopeners_brd.openerAbilities.BattleVoice, -- after this point it's either 3 burst shots, or RA procs if we get them
+        xivopeners_brd.openerAbilities.BurstShot,
+        xivopeners_brd.openerAbilities.Sidewinder,
+        xivopeners_brd.openerAbilities.BurstShot,
+        xivopeners_brd.openerAbilities.RefulgentArrow, -- this will be dequeued if we don't have straight shot ready
+        xivopeners_brd.openerAbilities.Barrage, -- need a check here for an RA proc, and use that instead
+        xivopeners_brd.openerAbilities.RefulgentArrow,
+        xivopeners_brd.openerAbilities.BurstShot,
+        --        xivopeners_brd.openerAbilities.BurstShot, -- this is going to get inserted if we don't get the RA proc
+        xivopeners_brd.openerAbilities.Bloodletter,
+        xivopeners_brd.openerAbilities.IronJaws,
+        xivopeners_brd.openerAbilities.EmpyrealArrow
+    },
 }
 
 xivopeners_brd.abilityQueue = {}
@@ -84,8 +106,10 @@ xivopeners_brd.lastcastid2 = 0
 
 function xivopeners_brd.getTincture()
     for i = 0, 3 do
-        local tincture = Inventory:Get(i):Get(xivopeners_brd.openerAbilities.Tincture.id)
-        if (tincture) then return tincture end
+        for _, id in pairs(xivopeners_brd.openerAbilities.Tincture.ids) do
+            local tincture = Inventory:Get(i):Get(id)
+            if (tincture) then return tincture end
+        end
     end
     return nil
 end
@@ -93,7 +117,9 @@ end
 function xivopeners_brd.getOpener()
     if (xivopeners_brd.openerInfo.currentOpenerIndex == 1) then
         return xivopeners_brd.openers.recommended
-    else
+    elseif (xivopeners_brd.openerInfo.currentOpenerIndex == 2) then
+        return xivopeners_brd.openers.nonin
+    elseif (xivopeners_brd.openerInfo.currentOpenerIndex == 3) then
         return xivopeners_brd.openers.compatibility
     end
 end
@@ -111,7 +137,11 @@ function xivopeners_brd.openerAvailable()
     for _, action in pairs(xivopeners_brd.getOpener()) do
         if (action == xivopeners_brd.openerAbilities.Tincture) then
             local tincture = xivopeners_brd.getTincture()
-            if (tincture and xivopeners_brd.useTincture and  tincture:GetAction().cd >= 1.5) then
+            if (tincture and xivopeners_brd.useTincture and tincture:GetAction().cd >= 1.5 and not HasBuff(Player.id, xivopeners_brd.openerAbilities.MedicineBuffID)) then
+                return false
+            end
+        elseif (action == xivopeners_brd.openerAbilities.RagingStrikes) then
+            if (action.cd >= 1.5 and not HasBuff(Player.id, xivopeners_brd.openerAbilities.RagingStrikesBuffID)) then
                 return false
             end
         elseif (action.cd >= 1.5) then
@@ -157,6 +187,7 @@ function xivopeners_brd.updateLastCast()
 end
 
 function xivopeners_brd.drawCall(event, tickcount)
+    GUI:AlignFirstTextHeightToWidgets()
     GUI:BeginGroup()
     GUI:Text("Use Tincture")
     GUI:NextColumn()
@@ -165,27 +196,32 @@ function xivopeners_brd.drawCall(event, tickcount)
     GUI:NextColumn()
 
     if (xivopeners_brd.debug) then
+        GUI:AlignFirstTextHeightToWidgets()
         GUI:Text("lastcastid")
         GUI:NextColumn()
         GUI:InputText("##xivopeners_brd_lastcastid_display", tostring(xivopeners_brd.lastcastid))
         GUI:NextColumn()
 
+        GUI:AlignFirstTextHeightToWidgets()
         GUI:Text("lastcastid2")
         GUI:NextColumn()
         GUI:InputText("##xivopeners_brd_lastcastid2_display", tostring(xivopeners_brd.lastcastid2))
         GUI:NextColumn()
 
+        GUI:AlignFirstTextHeightToWidgets()
         GUI:Text("lastcastid_o")
         GUI:NextColumn()
         GUI:InputText("##xivopeners_brd_lastcastid_original_display", tostring(Player.castinginfo.lastcastid))
         GUI:NextColumn()
 
+        GUI:AlignFirstTextHeightToWidgets()
         GUI:Text("castingid")
         GUI:NextColumn()
         GUI:InputText("##xivopeners_brd_castingid", tostring(Player.castinginfo.castingid))
         GUI:NextColumn()
 
         if (xivopeners_brd.abilityQueue[1]) then
+            GUI:AlignFirstTextHeightToWidgets()
             GUI:Text("queue[1]")
             GUI:NextColumn()
             GUI:InputText("##xivopeners_brd_queue[1]", xivopeners_brd.abilityQueue[1].name)
@@ -193,6 +229,7 @@ function xivopeners_brd.drawCall(event, tickcount)
         end
 
         if (xivopeners_brd.lastCastFromQueue) then
+            GUI:AlignFirstTextHeightToWidgets()
             GUI:Text("lastCastFromQueue")
             GUI:NextColumn()
             GUI:InputText("##xivopeners_brd_lastcastfromqueue", xivopeners_brd.lastCastFromQueue.name)
@@ -204,7 +241,8 @@ end
 function xivopeners_brd.main(event, tickcount)
     if (Player.level >= xivopeners_brd.supportedLevel) then
         local target = Player:GetTarget()
-        if (not target) then return end
+
+        if (not target or not target.attackable) then return end
 
         if (not xivopeners_brd.openerAvailable() and not xivopeners_brd.openerStarted) then return end -- don't start opener if it's not available, if it's already started then yolo
 
@@ -227,14 +265,14 @@ function xivopeners_brd.main(event, tickcount)
             xivopeners_brd.openerStarted = true
             xivopeners_brd.useNextAction(target)
         -- this code isn't working because the buff gets applied after the BS cast has gone off, but the script dequeues BS the moment the animation happens
-        elseif (xivopeners_brd.abilityQueue[1] == xivopeners_brd.openerAbilities.RefulgentArrow and xivopeners_brd.abilityQueue[2] == xivopeners_brd.openerAbilities.Barrage and (xivopeners_brd.abilityQueue[1].cdmax - xivopeners_brd.abilityQueue[1].cd < 1.5) and not HasBuff(Player.id, xivopeners_brd.openerAbilities.StraightShotReadyBuffID)) then
+        elseif (xivopeners_brd.abilityQueue[1] == xivopeners_brd.openerAbilities.RefulgentArrow and xivopeners_brd.abilityQueue[2] == xivopeners_brd.openerAbilities.Barrage and (xivopeners_brd.abilityQueue[1].cdmax - xivopeners_brd.abilityQueue[1].cd <= 1.1) and not HasBuff(Player.id, xivopeners_brd.openerAbilities.StraightShotReadyBuffID)) then
             xivopeners.log("Didn't get RA proc before Barrage, dequeuing")
             -- need to insert burst shot back in between Sidewinder and BL
             -- i could just do table.insert(queue, 5, burstshot) and it would be faster than looping through, but looping would be more reliable and flexible to opener changes in the future
             for k, v in ipairs(xivopeners_brd.abilityQueue) do
-                if (v == xivopeners_brd.openerAbilities.Sidewinder) then
+                if (v == xivopeners_brd.openerAbilities.Bloodletter) then
                     xivopeners.log("Added BurstShot back")
-                    table.insert(xivopeners_brd.abilityQueue, k + 1, xivopeners_brd.openerAbilities.BurstShot)
+                    table.insert(xivopeners_brd.abilityQueue, k - 1, xivopeners_brd.openerAbilities.BurstShot)
                     break
                 end
             end
@@ -272,14 +310,14 @@ end
 function xivopeners_brd.useNextAction(target)
     -- do the actual opener
     -- the current implementation uses a queue system
-    if (target and target.attackable and xivopeners_brd.abilityQueue[1]) then
+    if (target and target.attackable and xivopeners_brd.abilityQueue[1] and (xivopeners_brd.abilityQueue[1].range <= 0 or target.distance2d <= xivopeners_brd.abilityQueue[1].range)) then
         if (xivopeners_brd.abilityQueue[1] == xivopeners_brd.openerAbilities.RagingStrikes and HasBuff(Player.id, xivopeners_brd.openerAbilities.RagingStrikesBuffID)) then
             xivopeners.log("Player already used raging strikes prepull, continue with opener")
 --            xivopeners_brd.lastCastFromQueue = xivopeners_brd.openerAbilities.RagingStrikes
             xivopeners_brd.dequeue()
             return
         end
-        if (Player.gauge[2] >= 3 and xivopeners_brd.abilityQueue[1] ~= xivopeners_brd.openerAbilities.PitchPerfect) then
+        if (Player.gauge[2] >= 3 and xivopeners_brd.openerAbilities.BurstShot.cdmax - xivopeners_brd.openerAbilities.BurstShot.cd > 0.9) then
             -- don't want to dequeue here
             xivopeners.log("Using PP3 proc")
             xivopeners_brd.openerAbilities.PitchPerfect:Cast(target.id)

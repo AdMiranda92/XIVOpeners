@@ -1,10 +1,6 @@
 xivopeners = {}
 
-xivopeners.version = {
-    major = 0,
-    minor = 8,
-    patch = 3,
-}
+xivopeners.version = semver(1,4,2)
 
 xivopeners.GUI = {
     open = false,
@@ -38,7 +34,27 @@ xivopeners.jobs = {
     Dancer = 38
 }
 
--- only supports mch and brd for now
+function xivopeners.log(string)
+    d("[XIVOpeners] " .. string)
+end
+
+-- load autoupdate script
+-- code isn't really finished yet, ignore for now
+--loadfile(ml_global_information.path .. "\\LuaMods\\XIVOpeners\\AutoUpdate.lua")()
+--xivopeners_AutoUpdate.checkUpdate()
+
+-- load all the jobs
+if (FolderExists(ml_global_information.path .. "\\LuaMods\\XIVOpeners\\Jobs")) then
+    local fileList = FolderList(ml_global_information.path .. "\\LuaMods\\XIVOpeners\\Jobs", [[(.*).lua$]])
+    if (table.valid(fileList)) then
+        for _, v in pairs(fileList) do
+            xivopeners.log("Loading " .. v)
+            local f = loadfile(ml_global_information.path .. "\\LuaMods\\XIVOpeners\\Jobs\\" .. v)
+            f()
+        end
+    end
+end
+
 xivopeners.supportedJobs = {
     [xivopeners.jobs.Machinist] = {
         main = xivopeners_mch.main,
@@ -67,7 +83,7 @@ xivopeners.supportedJobs = {
         drawCall = xivopeners_mnk.drawCall,
     },
 
-    [xivopeners.jobs.Summoner]  = {
+    [xivopeners.jobs.Summoner] = {
         main = xivopeners_smn.main,
         openerInfo = xivopeners_smn.openerInfo,
         queueOpener = xivopeners_smn.queueOpener,
@@ -76,13 +92,94 @@ xivopeners.supportedJobs = {
         drawCall = xivopeners_smn.drawCall,
     },
 
-    [xivopeners.jobs.Samurai]  = {
+    [xivopeners.jobs.Scholar] = {
+        main = xivopeners_sch.main,
+        openerInfo = xivopeners_sch.openerInfo,
+        queueOpener = xivopeners_sch.queueOpener,
+        openerAvailable = xivopeners_sch.openerAvailable,
+        checkOpenerIds = xivopeners_sch.checkOpenerIds,
+        drawCall = xivopeners_sch.drawCall,
+    },
+
+    [xivopeners.jobs.Samurai] = {
         main = xivopeners_sam.main,
         openerInfo = xivopeners_sam.openerInfo,
         queueOpener = xivopeners_sam.queueOpener,
         openerAvailable = xivopeners_sam.openerAvailable,
         checkOpenerIds = xivopeners_sam.checkOpenerIds,
         drawCall = xivopeners_sam.drawCall,
+    },
+
+    [xivopeners.jobs.Ninja] = {
+        main = xivopeners_nin.main,
+        openerInfo = xivopeners_nin.openerInfo,
+        queueOpener = xivopeners_nin.queueOpener,
+        openerAvailable = xivopeners_nin.openerAvailable,
+        checkOpenerIds = xivopeners_nin.checkOpenerIds,
+        drawCall = xivopeners_nin.drawCall,
+    },
+
+    [xivopeners.jobs.BlackMage] = {
+        main = xivopeners_blm.main,
+        openerInfo = xivopeners_blm.openerInfo,
+        queueOpener = xivopeners_blm.queueOpener,
+        openerAvailable = xivopeners_blm.openerAvailable,
+        checkOpenerIds = xivopeners_blm.checkOpenerIds,
+        drawCall = xivopeners_blm.drawCall,
+    },
+
+    [xivopeners.jobs.Dragoon] = {
+        main = xivopeners_drg.main,
+        openerInfo = xivopeners_drg.openerInfo,
+        queueOpener = xivopeners_drg.queueOpener,
+        openerAvailable = xivopeners_drg.openerAvailable,
+        checkOpenerIds = xivopeners_drg.checkOpenerIds,
+        drawCall = xivopeners_drg.drawCall,
+    },
+    
+    [xivopeners.jobs.Paladin] = {
+        main = xivopeners_pld.main,
+        openerInfo = xivopeners_pld.openerInfo,
+        queueOpener = xivopeners_pld.queueOpener,
+        openerAvailable = xivopeners_pld.openerAvailable,
+        checkOpenerIds = xivopeners_pld.checkOpenerIds,
+        drawCall = xivopeners_pld.drawCall,
+    },
+
+    [xivopeners.jobs.Gunbreaker] = {
+        main = xivopeners_gnb.main,
+        openerInfo = xivopeners_gnb.openerInfo,
+        queueOpener = xivopeners_gnb.queueOpener,
+        openerAvailable = xivopeners_gnb.openerAvailable,
+        checkOpenerIds = xivopeners_gnb.checkOpenerIds,
+        drawCall = xivopeners_gnb.drawCall,
+    },
+
+    [xivopeners.jobs.Dancer] = {
+        main = xivopeners_dnc.main,
+        openerInfo = xivopeners_dnc.openerInfo,
+        queueOpener = xivopeners_dnc.queueOpener,
+        openerAvailable = xivopeners_dnc.openerAvailable,
+        checkOpenerIds = xivopeners_dnc.checkOpenerIds,
+        drawCall = xivopeners_dnc.drawCall,
+    },
+
+    [xivopeners.jobs.Warrior] = {
+        main = xivopeners_war.main,
+        openerInfo = xivopeners_war.openerInfo,
+        queueOpener = xivopeners_war.queueOpener,
+        openerAvailable = xivopeners_war.openerAvailable,
+        checkOpenerIds = xivopeners_war.checkOpenerIds,
+        drawCall = xivopeners_war.drawCall,
+    },
+
+    [xivopeners.jobs.DarkKnight] = {
+        main = xivopeners_drk.main,
+        openerInfo = xivopeners_drk.openerInfo,
+        queueOpener = xivopeners_drk.queueOpener,
+        openerAvailable = xivopeners_drk.openerAvailable,
+        checkOpenerIds = xivopeners_drk.checkOpenerIds,
+        drawCall = xivopeners_drk.drawCall,
     },
 }
 xivopeners.oocEnable = false
@@ -109,14 +206,7 @@ function xivopeners.ToggleRun()
 end
 
 function xivopeners.Init()
-    -- just some shit that could be useful in the future
-    setmetatable(xivopeners.version, {
-        __eq = function(a, b) return a:getNumber() == b:getNumber() end, -- faster than converting a string
-        __lt = function(a, b) return a:getNumber() < b:getNumber() end,
-        __le = function(a, b) return a:getNumber() <= b:getNumber() end
-    })
-
-    xivopeners.log("Initializing XIVOpeners v" .. xivopeners.version:getString())
+    xivopeners.log("Initializing XIVOpeners v" .. tostring(xivopeners.version))
     if (xivopeners.supportedJobs[Player.job] ~= nil) then
         xivopeners.supportedJobs[Player.job].checkOpenerIds()
         xivopeners.supportedJobs[Player.job].queueOpener()
@@ -140,7 +230,7 @@ end
 
 function xivopeners.drawMainFull(event, ticks)
     GUI:SetNextWindowSize(400, 150, GUI.SetCond_FirstUseEver)
-    xivopeners.GUI.visible, xivopeners.GUI.open = GUI:Begin("XIVOpeners v" .. xivopeners.version:getString(), xivopeners.GUI.open)
+    xivopeners.GUI.visible, xivopeners.GUI.open = GUI:Begin("XIVOpeners v" .. tostring(xivopeners.version), xivopeners.GUI.open)
     if (xivopeners.GUI.visible) then
         local x, y = GUI:GetWindowPos()
         local width, height = GUI:GetWindowSize()
@@ -167,8 +257,8 @@ function xivopeners.drawMainFull(event, ticks)
         if (GUI:ImageButton("##xivopeners_drawmode_collapse", ml_global_information.path .. "\\GUI\\UI_Textures\\collapse.png", 14, 14)) then
             xivopeners.GUI.drawMode = 0
         end
-        GUI:AlignFirstTextHeightToWidgets()
 
+        GUI:AlignFirstTextHeightToWidgets()
         GUI:Columns(2, "##xivopeners_cols", true)
         GUI:BeginGroup()
         GUI:Text("Advanced Mode")
@@ -182,6 +272,7 @@ function xivopeners.drawMainFull(event, ticks)
         GUI:NextColumn()
 
         if (xivopeners.advancedMode) then
+            GUI:AlignFirstTextHeightToWidgets()
             GUI:BeginGroup()
             GUI:Text("Professional Static Mode")
             GUI:NextColumn()
@@ -198,6 +289,7 @@ function xivopeners.drawMainFull(event, ticks)
 
         if (xivopeners.supportedJobs[Player.job]) then
             -- TODO: move this to a drawcall that's opener specific so they can have custom options, can also get rid of openerInfo that way
+            GUI:AlignFirstTextHeightToWidgets()
             GUI:Text("Opener")
             GUI:NextColumn()
             GUI:PushItemWidth(-1)
@@ -206,6 +298,7 @@ function xivopeners.drawMainFull(event, ticks)
             if (openerIndexChanged) then
                 xivopeners.supportedJobs[Player.job].queueOpener()
             end
+            GUI:PopItemWidth()
             GUI:NextColumn()
             xivopeners.supportedJobs[Player.job].drawCall(event, ticks)
         end
@@ -287,7 +380,10 @@ function xivopeners.OnUpdate(event, tickcount)
             if (FFXIV_Common_BotRunning) then
                 ml_global_information.ToggleRun() -- toggle bot to off if opener is running
             end
+            local target = Player:GetTarget()
+            if (not gStartCombat and target and not target.incombat) then return end -- combat check
             xivopeners.supportedJobs[Player.job].main(event, tickcount) -- call main for job
+
         elseif (xivopeners.oocEnable and not Player.incombat and not xivopeners.running) then
             xivopeners.ToggleRun()
         end

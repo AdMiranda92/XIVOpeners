@@ -13,54 +13,181 @@ xivopeners_mch.openerAbilities = {
     SplitShot = ActionList:Get(1, 7411),
     BarrelStabilizer = ActionList:Get(1, 7414),
     SlugShot = ActionList:Get(1, 7412),
-    WildFire = ActionList:Get(1, 2878),
-    HyperCharge = ActionList:Get(1, 17209),
+    Wildfire = ActionList:Get(1, 2878),
+    Hypercharge = ActionList:Get(1, 17209),
     HeatBlast = ActionList:Get(1, 7410),
     Reassemble = ActionList:Get(1, 2876),
     AirAnchor = ActionList:Get(1, 16500),
     CleanShot = ActionList:Get(1, 7413),
-    Tincture = {name = "Tincture", id = 27787},
+    ReassembleBuffID = 851,
+    Tincture = {name = "Tincture", ids = {27996, 27787}, range = 0},
     MedicineBuffID = 49,
 }
 
 xivopeners_mch.openerInfo = {
-    listOpeners = {"Early WF", "Late WF", "Top Parse"},
+    listOpeners = {"General", "Quick", "Early Crit DH Buffs", "Late Crit DH Buffs", "Multiplier Buffs", "Delayed Burst", "Late Hypercharge", "High Ping"},
     currentOpenerIndex = 1,
 }
 
 xivopeners_mch.openers = {
-    earlyWF = {
+    general = {
+        xivopeners_mch.openerAbilities.Reassemble,
         xivopeners_mch.openerAbilities.Tincture,
         xivopeners_mch.openerAbilities.Drill,
         xivopeners_mch.openerAbilities.GaussRound,
         xivopeners_mch.openerAbilities.Ricochet,
         xivopeners_mch.openerAbilities.SplitShot,
         xivopeners_mch.openerAbilities.BarrelStabilizer,
-        xivopeners_mch.openerAbilities.GaussRound,
         xivopeners_mch.openerAbilities.SlugShot,
-        xivopeners_mch.openerAbilities.WildFire,
-        xivopeners_mch.openerAbilities.HyperCharge,
-        xivopeners_mch.openerAbilities.HeatBlast,
-        xivopeners_mch.openerAbilities.Ricochet,
-        xivopeners_mch.openerAbilities.HeatBlast,
+        xivopeners_mch.openerAbilities.AirAnchor,
         xivopeners_mch.openerAbilities.GaussRound,
-        xivopeners_mch.openerAbilities.HeatBlast,
-        xivopeners_mch.openerAbilities.Ricochet,
-        xivopeners_mch.openerAbilities.HeatBlast,
-        xivopeners_mch.openerAbilities.GaussRound,
-        xivopeners_mch.openerAbilities.HeatBlast,
         xivopeners_mch.openerAbilities.Ricochet,
         xivopeners_mch.openerAbilities.CleanShot,
         xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.Hypercharge,
+        xivopeners_mch.openerAbilities.HeatBlast,
+        xivopeners_mch.openerAbilities.Wildfire,
+        xivopeners_mch.openerAbilities.HeatBlast,
         xivopeners_mch.openerAbilities.Ricochet,
-        xivopeners_mch.openerAbilities.AirAnchor,
-        xivopeners_mch.openerAbilities.Reassemble,
+        xivopeners_mch.openerAbilities.HeatBlast,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.HeatBlast,
+        xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.HeatBlast,
         xivopeners_mch.openerAbilities.GaussRound,
         xivopeners_mch.openerAbilities.Drill,
-        xivopeners_mch.openerAbilities.Ricochet
-        },
+        xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.SplitShot,
+        xivopeners_mch.openerAbilities.Ricochet,
+    },
 
-    lateWF = {
+    quick = {
+        xivopeners_mch.openerAbilities.Reassemble,
+        xivopeners_mch.openerAbilities.Tincture,
+        xivopeners_mch.openerAbilities.Drill,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.SplitShot,
+        xivopeners_mch.openerAbilities.BarrelStabilizer,
+        xivopeners_mch.openerAbilities.Wildfire,
+        xivopeners_mch.openerAbilities.AirAnchor,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.Hypercharge,
+        xivopeners_mch.openerAbilities.HeatBlast,
+        xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.HeatBlast,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.HeatBlast,
+        xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.HeatBlast,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.HeatBlast,
+        xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.SlugShot,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.CleanShot,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.Drill,
+    },
+
+    earlycdh = {
+        xivopeners_mch.openerAbilities.Reassemble,
+        xivopeners_mch.openerAbilities.Tincture,
+        xivopeners_mch.openerAbilities.Drill,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.SplitShot,
+        xivopeners_mch.openerAbilities.BarrelStabilizer,
+        xivopeners_mch.openerAbilities.SlugShot,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.AirAnchor,
+        xivopeners_mch.openerAbilities.Wildfire,
+        xivopeners_mch.openerAbilities.Hypercharge,
+        xivopeners_mch.openerAbilities.HeatBlast,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.HeatBlast,
+        xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.HeatBlast,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.HeatBlast,
+        xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.HeatBlast,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.CleanShot,
+        xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.Drill,
+        xivopeners_mch.openerAbilities.Ricochet,
+    },
+
+    latecdh = {
+        xivopeners_mch.openerAbilities.Reassemble,
+        xivopeners_mch.openerAbilities.Tincture,
+        xivopeners_mch.openerAbilities.Drill,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.SplitShot,
+        xivopeners_mch.openerAbilities.BarrelStabilizer,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.SlugShot,
+        xivopeners_mch.openerAbilities.Wildfire,
+        xivopeners_mch.openerAbilities.Hypercharge,
+        xivopeners_mch.openerAbilities.HeatBlast,
+        xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.HeatBlast,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.HeatBlast,
+        xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.HeatBlast,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.HeatBlast,
+        xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.CleanShot,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.AirAnchor,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.Drill,
+    },
+
+    latemultiplier = {
+        xivopeners_mch.openerAbilities.Tincture,
+        xivopeners_mch.openerAbilities.Drill,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.SplitShot,
+        xivopeners_mch.openerAbilities.BarrelStabilizer,
+        xivopeners_mch.openerAbilities.SlugShot,
+        xivopeners_mch.openerAbilities.AirAnchor,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.CleanShot,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.Hypercharge,
+        xivopeners_mch.openerAbilities.HeatBlast,
+        xivopeners_mch.openerAbilities.Wildfire,
+        xivopeners_mch.openerAbilities.HeatBlast,
+        xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.HeatBlast,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.HeatBlast,
+        xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.HeatBlast,
+        xivopeners_mch.openerAbilities.Reassemble,
+        xivopeners_mch.openerAbilities.Drill,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.SplitShot,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.Ricochet,
+    },
+
+    delayedmultiplier = {
         xivopeners_mch.openerAbilities.SplitShot,
         xivopeners_mch.openerAbilities.GaussRound,
         xivopeners_mch.openerAbilities.Ricochet,
@@ -77,8 +204,8 @@ xivopeners_mch.openers = {
         xivopeners_mch.openerAbilities.GaussRound,
         xivopeners_mch.openerAbilities.Ricochet,
         xivopeners_mch.openerAbilities.AirAnchor,
-        xivopeners_mch.openerAbilities.WildFire,
-        xivopeners_mch.openerAbilities.HyperCharge,
+        xivopeners_mch.openerAbilities.Wildfire,
+        xivopeners_mch.openerAbilities.Hypercharge,
         xivopeners_mch.openerAbilities.HeatBlast,
         xivopeners_mch.openerAbilities.GaussRound,
         xivopeners_mch.openerAbilities.HeatBlast,
@@ -95,37 +222,68 @@ xivopeners_mch.openers = {
         xivopeners_mch.openerAbilities.Drill,
     },
 
-    topParse = {
+    lateHypercharge = {
         xivopeners_mch.openerAbilities.Tincture,
+        xivopeners_mch.openerAbilities.Drill,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.SplitShot,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.Wildfire,
+        xivopeners_mch.openerAbilities.SlugShot,
+        xivopeners_mch.openerAbilities.BarrelStabilizer,
+        xivopeners_mch.openerAbilities.Hypercharge,
+        xivopeners_mch.openerAbilities.HeatBlast,
+        xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.HeatBlast,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.HeatBlast,
+        xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.HeatBlast,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.HeatBlast,
         xivopeners_mch.openerAbilities.Reassemble,
         xivopeners_mch.openerAbilities.AirAnchor,
-        xivopeners_mch.openerAbilities.GaussRound,
         xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.CleanShot,
+        xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.Drill,
+        xivopeners_mch.openerAbilities.Ricochet,
+    },
+
+    highPing = {
+        xivopeners_mch.openerAbilities.Tincture,
+        xivopeners_mch.openerAbilities.SplitShot,
+        xivopeners_mch.openerAbilities.Reassemble,
+        xivopeners_mch.openerAbilities.GaussRound,
         xivopeners_mch.openerAbilities.Drill,
         xivopeners_mch.openerAbilities.BarrelStabilizer,
-        xivopeners_mch.openerAbilities.SplitShot,
-        xivopeners_mch.openerAbilities.GaussRound,
-        xivopeners_mch.openerAbilities.Richochet,
+        xivopeners_mch.openerAbilities.Ricochet,
         xivopeners_mch.openerAbilities.SlugShot,
         xivopeners_mch.openerAbilities.GaussRound,
-        xivopeners_mch.openerAbilities.Richochet,
+        xivopeners_mch.openerAbilities.Ricochet,
         xivopeners_mch.openerAbilities.CleanShot,
-        xivopeners_mch.openerAbilities.WildFire,
-        xivopeners_mch.openerAbilities.HyperCharge,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.Ricochet,
+        xivopeners_mch.openerAbilities.AirAnchor,
+        xivopeners_mch.openerAbilities.Wildfire,
+        xivopeners_mch.openerAbilities.Hypercharge,
         xivopeners_mch.openerAbilities.HeatBlast,
         xivopeners_mch.openerAbilities.HeatBlast,
         xivopeners_mch.openerAbilities.GaussRound,
         xivopeners_mch.openerAbilities.HeatBlast,
         xivopeners_mch.openerAbilities.Ricochet,
         xivopeners_mch.openerAbilities.HeatBlast,
-        xivopeners_mch.openerAbilities.GaussRound,
         xivopeners_mch.openerAbilities.HeatBlast,
-        xivopeners_mch.openerAbilities.Ricochet,
         xivopeners_mch.openerAbilities.SplitShot,
         xivopeners_mch.openerAbilities.GaussRound,
-        xivopeners_mch.openerAbilities.Drill,
         xivopeners_mch.openerAbilities.Ricochet,
-    }
+        xivopeners_mch.openerAbilities.Drill,
+        xivopeners_mch.openerAbilities.GaussRound,
+        xivopeners_mch.openerAbilities.Ricochet,
+    },
 }
 
 xivopeners_mch.abilityQueue = {}
@@ -137,20 +295,33 @@ xivopeners_mch.lastcastid2 = 0
 
 function xivopeners_mch.getTincture()
     for i = 0, 3 do
-        local tincture = Inventory:Get(i):Get(xivopeners_mch.openerAbilities.Tincture.id)
-        if (tincture) then return tincture end
+        for _, id in pairs(xivopeners_mch.openerAbilities.Tincture.ids) do
+            local tincture = Inventory:Get(i):Get(id)
+            if (tincture) then return tincture end
+        end
     end
     return nil
 end
 
-
 function xivopeners_mch.getOpener()
     if (xivopeners_mch.openerInfo.currentOpenerIndex == 1) then
-        return xivopeners_mch.openers.earlyWF
+        return xivopeners_mch.openers.general
     elseif (xivopeners_mch.openerInfo.currentOpenerIndex == 2) then
-        return xivopeners_mch.openers.lateWF
+        return xivopeners_mch.openers.quick
     elseif (xivopeners_mch.openerInfo.currentOpenerIndex == 3) then
-        return xivopeners_mch.openers.topParse
+        return xivopeners_mch.openers.earlycdh
+    elseif (xivopeners_mch.openerInfo.currentOpenerIndex == 4) then
+        return xivopeners_mch.openers.latecdh
+    elseif (xivopeners_mch.openerInfo.currentOpenerIndex == 5) then
+        return xivopeners_mch.openers.latemultiplier
+    elseif (xivopeners_mch.openerInfo.currentOpenerIndex == 6) then
+        return xivopeners_mch.openers.delayedmultiplier
+    elseif (xivopeners_mch.openerInfo.currentOpenerIndex == 7) then
+        return xivopeners_mch.openers.lateHypercharge
+    elseif (xivopeners_mch.openerInfo.currentOpenerIndex == 8) then
+        return xivopeners_mch.openers.highPing
+    else
+        return {}
     end
 end
 
@@ -167,7 +338,11 @@ function xivopeners_mch.openerAvailable()
     for _, action in pairs(xivopeners_mch.getOpener()) do
         if (action == xivopeners_mch.openerAbilities.Tincture) then
             local tincture = xivopeners_mch.getTincture()
-            if (tincture and xivopeners_mch.useTincture and tincture:GetAction().cd >= 1.5) then
+            if (tincture and xivopeners_mch.useTincture and tincture:GetAction().cd >= 1.5 and not HasBuff(Player.id, xivopeners_mch.openerAbilities.MedicineBuffID)) then
+                return false
+            end
+        elseif (action == xivopeners_mch.openerAbilities.Reassemble) then
+            if (action.cd >= 1.5 and not HasBuff(Player.id, xivopeners_mch.openerAbilities.ReassembleBuffID)) then
                 return false
             end
         elseif (action.cd >= 1.5) then
@@ -176,7 +351,6 @@ function xivopeners_mch.openerAvailable()
     end
     return true
 end
-
 
 function xivopeners_mch.queueOpener()
     -- the only time this gets called is when the main script is toggled, so we can do more than just queue the opener
@@ -214,6 +388,7 @@ function xivopeners_mch.updateLastCast()
 end
 
 function xivopeners_mch.drawCall(event, tickcount)
+    GUI:AlignFirstTextHeightToWidgets()
     GUI:BeginGroup()
     GUI:Text("Use Tincture")
     GUI:NextColumn()
@@ -226,7 +401,7 @@ function xivopeners_mch.main(event, tickcount)
     if (Player.level >= xivopeners_mch.supportedLevel) then
         local target = Player:GetTarget()
 
-        if (not target) then return end
+        if (not target or not target.attackable) then return end
 
         if (not xivopeners_mch.openerAvailable() and not xivopeners_mch.openerStarted) then return end -- don't start opener if it's not available, if it's already started then yolo
 
@@ -276,7 +451,7 @@ end
 function xivopeners_mch.useNextAction(target)
     -- do the actual opener
     -- the current implementation uses a queue system
-    if (target and target.attackable and xivopeners_mch.abilityQueue[1]) then
+    if (target and target.attackable and xivopeners_mch.abilityQueue[1] and (xivopeners_mch.abilityQueue[1].range <= 0 or target.distance2d <= xivopeners_mch.abilityQueue[1].range)) then
         -- tincture check
         if (xivopeners_mch.abilityQueue[1] == xivopeners_mch.openerAbilities.Tincture) then
             local tincture = xivopeners_mch.getTincture()
@@ -294,6 +469,14 @@ function xivopeners_mch.useNextAction(target)
             -- don't want to continue past this point or we risk breaking shit
             return
         end
+        
+        -- prepull reassemble
+        if (xivopeners_mch.abilityQueue[1] == xivopeners_mch.openerAbilities.Reassemble and HasBuff(Player.id, xivopeners_mch.openerAbilities.ReassembleBuffID)) then
+            xivopeners.log("Player already used reassemble prepull, continue with opener")
+            xivopeners_mch.dequeue()
+            return
+        end
+    
         -- idk how to make it not spam console
         --xivopeners.log("Casting " .. xivopeners_mch.abilityQueue[1].name)
         xivopeners_mch.abilityQueue[1]:Cast(target.id)
